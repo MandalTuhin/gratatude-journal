@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gratitude Journal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Today I'm Grateful For...</h1>
+        <form id="journalForm">
+            <textarea name="" id="entry" placeholder="Write here..." required></textarea>
+            <button type="submit">Save Entry</button>
+        </form>
+        <p class="note">Your entries are saved locally on your computer.</p>
+    </div>
+    <script>
+        document.getElementById('journalForm').addEventListener('submit', async(e) =>{
+            e.preventDefault();
+            const entry = document.getElementById('entry').value.trim();
+            if(!entry) return;
+            await fetch('http://localhost:3000/entry',{
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({text:entry})
+            });
+            document.getElementById('entry').value = ''; 
+            alert("Gratitude saved.");
+        })
+    </script>
+</body>
+</html>
